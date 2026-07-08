@@ -15,6 +15,18 @@ Output lands in `out/<name>/`: `permit.pdf`, `permit.html` (open in a browser
 to preview while editing templates), and `sheet-N.png` (one screenshot per
 sheet — look at these to verify your work).
 
+## Dev server (hot reload)
+
+```bash
+npm run dev                            # default project
+node src/dev.js projects/<name>        # specific project
+```
+
+Serves the permit at http://localhost:4173 and reloads the browser on every
+save to `src/` or the project folder. Use this while iterating on templates;
+run `src/render.js` when you want the PDF + review screenshots. No extra
+dependencies — plain Node http + fs.watch.
+
 ## Repo layout
 
 ```
@@ -22,7 +34,9 @@ projects/<name>/packet.md       info packet from the installer (the input brief)
 projects/<name>/project.json    ALL data for the permit: address, AHJ, codes,
                                 equipment, BOM, site geometry (feet), labels
 projects/<name>/assets/         site photo + vicinity map images
-src/render.js                   entry point; maps theme -> sheet templates
+src/build.js                    data + theme -> out/<name>/permit.html; theme registry
+src/render.js                   build + headless Chrome -> PDF + sheet PNGs
+src/dev.js                      hot-reload dev server (http://localhost:4173)
 src/themes/atlas.css            "atlas" house style — THE standard for all new
 src/sheets/atlas/*.js           permits (bottom title strip, condensed, navy)
 src/frame.js, src/styles.css    "canyon" house style — LEGACY, kept only for
