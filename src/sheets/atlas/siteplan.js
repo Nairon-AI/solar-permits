@@ -6,7 +6,7 @@ import { textLines, leader, northArrowSimple } from '../../symbols.js';
 
 const STEEL = '#2563eb';
 
-function siteDrawing(site) {
+function siteDrawing(site, streetName) {
   const pl = site.propertyLine;
   const m = site.mainRoof;
   const g = site.garage;
@@ -87,7 +87,7 @@ function siteDrawing(site) {
     ${driveway}
     ${small}${zoom}${detailBoxes}${connectors}${callouts}
     ${textLines([site.frontLabel], 33, 108, 3, { anchor: 'middle' })}
-    ${textLines(['SW 11TH AVE'], 33, 116.5, 3, { anchor: 'middle', weight: 'bold' })}
+    ${textLines([streetName], 33, 116.5, 3, { anchor: 'middle', weight: 'bold' })}
     ${northArrowSimple(-10, 118, 5)}
   </svg>`;
 }
@@ -104,7 +104,7 @@ export function atlasSitePlanSheet(data) {
     </div>`).join('');
 
   const content = `
-  ${siteDrawing(site)}
+  ${siteDrawing(site, project.streetName)}
 
   <div class="abs" style="left:10.1in; top:0.25in; width:3.15in">
     <div class="hd-bar">LEGEND</div>

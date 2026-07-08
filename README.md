@@ -23,10 +23,10 @@ projects/<name>/project.json    ALL data for the permit: address, AHJ, codes,
                                 equipment, BOM, site geometry (feet), labels
 projects/<name>/assets/         site photo + vicinity map images
 src/render.js                   entry point; maps theme -> sheet templates
-src/frame.js, src/styles.css    "canyon" house style (right title block, Arial)
-src/sheets/*.js                 canyon sheet templates
-src/themes/atlas.css            "atlas" house style (bottom title strip, condensed, navy)
-src/sheets/atlas/*.js           atlas sheet templates
+src/themes/atlas.css            "atlas" house style — THE standard for all new
+src/sheets/atlas/*.js           permits (bottom title strip, condensed, navy)
+src/frame.js, src/styles.css    "canyon" house style — LEGACY, kept only for
+src/sheets/*.js                 the original bee-canyon-ca example
 src/symbols.js                  shared SVG symbol library (equipment glyphs,
                                 leaders, dimensions, north arrows, grade line)
 ```
@@ -40,12 +40,14 @@ src/symbols.js                  shared SVG symbol library (equipment glyphs,
    Save as `assets/house-photo.png` and `assets/vicinity-map.png`; record the
    vicinity bbox in `project.json` (`project.vicinityBbox`) — the map pin is
    computed from it.
-3. Write `project.json` (copy an existing one as the starting point). Site
-   geometry is polygons/rects in **feet** — trace the roof from the satellite
-   photo.
-4. Pick a theme (`"theme": "canyon" | "atlas"`) or add a new one: a theme is
-   one CSS file + a frame + sheet templates registered in `THEMES` in
-   `src/render.js`. Reuse `src/symbols.js` for drawings.
+3. Write `project.json` — copy `projects/cape-coral-fl/project.json` as the
+   starting point (it matches the atlas templates). Site geometry is
+   polygons/rects in **feet** — trace the roof from the satellite photo.
+4. Use the **atlas** house style for all new permits (it is the default when
+   `theme` is omitted). Do not use `canyon` — it is legacy. Sheet layouts
+   (equipment placement, callout positions) are adjusted per property inside
+   `src/sheets/atlas/*.js`; reuse `src/symbols.js` for equipment glyphs and
+   add new equipment there, not inline.
 5. Render, then **read the `out/<name>/sheet-N.png` screenshots** and fix
    overlaps/collisions before calling it done. Compare against the packet:
    every equipment item should appear in the summary, BOM, plan callouts, and

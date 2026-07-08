@@ -15,6 +15,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 // Each theme is a house style: its own CSS + sheet templates.
+// "atlas" is the standard style for all new permits; "canyon" is legacy,
+// kept for the original bee-canyon-ca example.
 const THEMES = {
   canyon: { css: 'src/styles.css', sheets: [coverSheet, roofPlanSheet, elevationSheet] },
   atlas: { css: 'src/themes/atlas.css', sheets: [atlasCoverSheet, atlasSitePlanSheet, atlasElevationSheet] },
@@ -24,7 +26,7 @@ const projDir = resolve(root, process.argv[2] ?? 'projects/bee-canyon-ca');
 const outDir = resolve(root, 'out', basename(projDir));
 
 const data = JSON.parse(readFileSync(resolve(projDir, 'project.json'), 'utf8'));
-const theme = THEMES[data.theme ?? 'canyon'];
+const theme = THEMES[data.theme ?? 'atlas'];
 data.assetsRel = relative(outDir, resolve(projDir, 'assets'));
 
 const css = readFileSync(resolve(root, theme.css), 'utf8');
