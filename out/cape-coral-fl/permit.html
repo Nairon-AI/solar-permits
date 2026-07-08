@@ -1,0 +1,610 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Permit Plan Set</title><style>/* ATLAS house style: bottom title-block strip, condensed type, navy accents. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: 17in 11in; margin: 0; }
+
+:root {
+  --ink: #111827;
+  --navy: #14335c;
+  --steel: #2563eb;
+  --rule: #4b5563;
+}
+
+html, body {
+  font-family: "Avenir Next Condensed", "Arial Narrow", Arial, sans-serif;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.sheet {
+  width: 17in;
+  height: 11in;
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* double border */
+.sheet-border { position: absolute; inset: 0.09in; border: 1px solid var(--ink); }
+.sheet-border-inner { position: absolute; inset: 0.16in; border: 2.5px solid var(--ink); }
+
+/* Content area: everything above the bottom title strip */
+.content {
+  position: absolute;
+  top: 0.16in; left: 0.16in;
+  width: 16.68in; height: 9.4in;
+}
+
+/* ---------- Bottom title strip ---------- */
+.title-strip {
+  position: absolute;
+  left: 0.16in; right: 0.16in; bottom: 0.16in;
+  height: 1.22in;
+  border-top: 2.5px solid var(--ink);
+  display: flex;
+}
+.ts-cell { border-right: 1.5px solid var(--ink); padding: 0.05in 0.09in; overflow: hidden; }
+.ts-cell:last-child { border-right: none; }
+.ts-label { font-size: 5.5pt; letter-spacing: 0.12em; color: var(--rule); margin-bottom: 2px; }
+.ts-company { font-size: 13pt; font-weight: 700; font-family: "Avenir Next", Arial, sans-serif; line-height: 1.05; color: var(--navy); }
+.ts-sub { font-size: 6.5pt; margin-top: 3px; letter-spacing: 0.04em; }
+.ts-value { font-size: 8.5pt; font-weight: 600; line-height: 1.3; }
+.ts-info { font-size: 6.5pt; line-height: 1.45; }
+.ts-sheetname { font-size: 12pt; font-weight: 700; line-height: 1.15; padding-top: 0.06in; }
+.ts-sheetnum { font-size: 26pt; font-weight: 800; font-family: "Avenir Next", Arial, sans-serif; text-align: center; padding-top: 0.1in; }
+.ts-revtable { width: 100%; border-collapse: collapse; margin-top: 1px; }
+.ts-revtable th, .ts-revtable td { border: 0.5px solid var(--rule); font-size: 5pt; font-weight: normal; text-align: center; height: 0.1in; }
+
+/* ---------- Content blocks ---------- */
+.abs { position: absolute; }
+
+.hd-bar {
+  background: var(--navy);
+  color: #fff;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+}
+.panel { border: 1.5px solid var(--ink); background: #fff; }
+.panel .body { padding: 5px 8px; }
+
+.doc-title { font-family: "Avenir Next", Arial, sans-serif; font-size: 21pt; font-weight: 800; color: var(--navy); line-height: 1.05; }
+.doc-subtitle { font-size: 10.5pt; font-weight: 600; letter-spacing: 0.06em; margin-top: 4px; }
+
+.note-text { font-size: 7.5pt; line-height: 1.35; }
+.codes-list { font-size: 8.5pt; line-height: 1.5; font-weight: 600; }
+
+.warn-box {
+  border: 2px solid #b91c1c;
+  color: #b91c1c;
+  font-size: 8.5pt;
+  font-weight: 700;
+  padding: 5px 8px;
+  background: #fff;
+}
+
+/* key-value + grid tables, navy headers */
+.kv-table { border-collapse: collapse; width: 100%; }
+.kv-table td { border: 1px solid var(--rule); font-size: 7.5pt; padding: 3px 6px; }
+.kv-table td.k { font-weight: 700; width: 38%; background: #eef2f7; letter-spacing: 0.03em; }
+
+.grid-table { border-collapse: collapse; width: 100%; }
+.grid-table th { background: var(--navy); color: #fff; border: 1px solid var(--navy); font-size: 7pt; letter-spacing: 0.06em; padding: 3px 5px; }
+.grid-table td { border: 1px solid var(--rule); font-size: 7.5pt; padding: 2.5px 5px; line-height: 1.25; }
+.grid-table td.c { text-align: center; }
+
+.summary-list { border: 1.5px solid var(--ink); }
+.summary-list .row { font-size: 7.5pt; padding: 4px 7px; border-top: 1px solid var(--rule); line-height: 1.3; }
+.summary-list .row:first-of-type { border-top: none; }
+
+/* figure label: circled number */
+.figure-label { display: flex; align-items: center; gap: 10px; }
+.fl-circle {
+  width: 0.42in; height: 0.42in; border: 2px solid var(--ink); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14pt; font-weight: 800; font-family: "Avenir Next", Arial, sans-serif;
+}
+.fl-text .t { font-size: 12.5pt; font-weight: 700; letter-spacing: 0.05em; }
+.fl-text .s { font-size: 7pt; color: var(--rule); letter-spacing: 0.08em; }
+
+.map-img { width: 100%; height: 100%; object-fit: cover; border: 1.5px solid var(--ink); display: block; }
+.map-tag {
+  position: absolute; top: -1px; left: -1px; z-index: 1;
+  background: var(--navy); color: #fff; font-size: 7pt; letter-spacing: 0.08em; padding: 2px 6px;
+}
+
+svg text { font-family: "Avenir Next Condensed", "Arial Narrow", Arial, sans-serif; }
+</style></head>
+<body>
+  <div class="sheet">
+    <div class="sheet-border"></div>
+    <div class="sheet-border-inner"></div>
+    <div class="content">
+  <div class="abs" style="left:0.35in; top:0.22in; width:9in">
+    <div class="doc-title">ENERGY STORAGE SYSTEM &mdash; PERMIT PLAN SET</div>
+    <div class="doc-subtitle">5217 SW 11TH AVE, CAPE CORAL, FL 33914, USA</div>
+  </div>
+
+  <div class="abs" style="left:0.35in; top:1.2in; width:4.6in">
+    <div class="hd-bar">PROJECT SUMMARY</div>
+    <table class="kv-table">
+      <tr><td class="k">PROJECT ADDRESS</td><td>5217 SW 11TH AVE, CAPE CORAL, FL 33914</td></tr><tr><td class="k">AHJ</td><td>CITY OF CAPE CORAL (LEE COUNTY)</td></tr><tr><td class="k">UTILITY / METER #</td><td>LCEC / 7734502118</td></tr><tr><td class="k">SYSTEM RATING</td><td>7.68 KW AC / 10.0 KWH</td></tr><tr><td class="k">SERVICE</td><td>(E) 200A, 120/240V, 1-PHASE</td></tr><tr><td class="k">JOB #</td><td>SC-2611</td></tr>
+    </table>
+  </div>
+
+  <div class="abs panel" style="left:0.35in; top:2.95in; width:4.6in">
+    <div class="hd-bar">SCOPE OF WORK</div>
+    <div class="body note-text">INSTALL A WHOLE-HOME BACKUP ENERGY STORAGE SYSTEM (BATTERY ONLY, NO PV) CONSISTING OF (02) ENPHASE IQ BATTERY 5P UNITS AND (01) ENPHASE IQ SYSTEM CONTROLLER 3G AT THE OWNER RESIDENCE LOCATED AT 5217 SW 11TH AVE, CAPE CORAL, FL 33914. THE SYSTEM INTERCONNECTS WITH THE UTILITY GRID THROUGH THE EXISTING 200A ELECTRICAL SERVICE. ALL EQUIPMENT IS OUTDOOR RATED (NEMA 3R) AND WALL-MOUNTED ON THE EAST EXTERIOR WALL ADJACENT TO THE EXISTING SERVICE EQUIPMENT.</div>
+  </div>
+
+  <div class="abs panel" style="left:0.35in; top:4.75in; width:4.6in">
+    <div class="hd-bar">GOVERNING CODES</div>
+    <div class="body codes-list">2023 FLORIDA BUILDING CODE, 8TH EDITION (BUILDING)<br>2023 FLORIDA BUILDING CODE, 8TH EDITION (RESIDENTIAL)<br>2020 NATIONAL ELECTRICAL CODE (NFPA 70)<br>2023 FLORIDA FIRE PREVENTION CODE<br>2023 FLORIDA BUILDING CODE, ENERGY CONSERVATION</div>
+  </div>
+
+  <div class="abs warn-box" style="left:0.35in; top:6.35in; width:4.6in">BATTERIES SHALL BE INSTALLED 3 FT FROM ANY DOOR OR WINDOW.</div>
+  <div class="abs warn-box" style="left:0.35in; top:6.95in; width:4.6in">EQUIPMENT ANCHORING SHALL COMPLY WITH FBC WIND LOAD REQUIREMENTS: 170 MPH ULT, EXPOSURE C.</div>
+
+  <div class="abs" style="left:5.3in; top:1.2in; width:4.25in">
+    <div class="hd-bar">ENERGY STORAGE SYSTEM NOTES</div>
+    <div class="panel" style="border-top:none"><div class="body note-text">
+      1. ALL EQUIPMENT SHALL BE LISTED AND LABELED FOR ITS APPLICATION. IQ BATTERY 5P IS UL 9540 CERTIFIED; INSTALL PER MANUFACTURER LISTING AND INSTALLATION MANUAL.<br>2. MAINTAIN 36" DEPTH X 30" WIDTH WORKING CLEARANCE IN FRONT OF ALL ELECTRICAL EQUIPMENT PER NEC 110.26.<br>3. BATTERY UNITS WALL-MOUNTED WITH BOTTOM OF ENCLOSURE 30" ABOVE FINISHED GRADE, MINIMUM 12" CLEAR BETWEEN UNITS.<br>4. INTERCONNECTION VIA IQ SYSTEM CONTROLLER 3G (SERVICE ENTRANCE RATED, 200A). UTILITY GRID FORMS THE PRIMARY SOURCE; SYSTEM PROVIDES WHOLE-HOME BACKUP ON GRID LOSS.<br>5. VERIFY (E) GROUNDING ELECTRODE SYSTEM AT MSP. IF NOT ACCESSIBLE OR VERIFIABLE, INSTALL A NEW 5/8" X 8' GROUND ROD AND BOND EQUIPMENT GROUNDING ACCORDINGLY.<br>6. ALL OUTDOOR CONDUIT AND FITTINGS SHALL BE RATED FOR WET LOCATIONS. SEAL ALL WALL PENETRATIONS WATERTIGHT.<br>7. SMOKE AND CO ALARMS SHALL COMPLY WITH FBC-R R314/R315 WHERE APPLICABLE.<br>8. DRAWINGS ARE DIAGRAMMATIC. FIELD CONDITIONS PREVAIL; REPORT DISCREPANCIES TO THE CONTRACTOR BEFORE COMMENCING WORK.
+    </div></div>
+  </div>
+
+  <table class="grid-table abs" style="left:5.3in; top:6in; width:3.1in">
+    <tr><th colspan="2">SHEET INDEX</th></tr>
+    <tr><td class="c" style="width:0.7in; font-weight:700">ES-0</td><td>COVER PAGE</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-1</td><td>SITE / ROOF PLAN &amp; BOM</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-2</td><td>EQUIPMENT ELEVATION</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-3</td><td>ELECTRICAL LINE DIAGRAM</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-4</td><td>ELECTRICAL CALCS.</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-5</td><td>SIGNAGE &amp; PLACARDS</td></tr><tr><td class="c" style="width:0.7in; font-weight:700">ES-6</td><td>EQUIPMENT SPECIFICATIONS</td></tr>
+  </table>
+
+  <div class="abs" style="left:5.3in; top:8.35in; width:3.1in; height:0.95in; border:1.5px dashed var(--rule); display:flex; align-items:center; justify-content:center; font-size:7pt; letter-spacing:0.15em; color:var(--rule)">PE STAMP</div>
+
+  <div class="abs" style="left:9.95in; top:0.22in; width:3.25in">
+    <div class="hd-bar">NEW EQUIPMENT SUMMARY</div>
+    <div class="summary-list" style="border-top:none">
+      <div class="row">(02) ENPHASE IQ BATTERY 5P, IQBATTERY-5P-1P-NA, 3.84KW / 5.0KWH EACH [120/240V], NEMA 3R</div><div class="row">(01) ENPHASE IQ SYSTEM CONTROLLER 3G, SC200G101NA, 200A, 120/240V, NEMA 3R</div><div class="row">(01) ENPHASE IQ GATEWAY (ENVOY) METERED, ENV-S-WM-230</div><div class="row">(01) SQUARE D SAFETY SWITCH DU222RB, 60A, 240V, NON-FUSED, NEMA 3R</div>
+    </div>
+  </div>
+
+  <div class="abs" style="left:13.55in; top:0.22in; width:2.95in; height:1.75in; border:1.5px dashed var(--rule); display:flex; align-items:center; justify-content:center; font-size:7pt; letter-spacing:0.15em; color:var(--rule)">CONTRACTOR STAMP</div>
+
+  <div class="abs" style="left:9.95in; top:2.35in; width:6.55in; text-align:center; font-size:9pt; font-weight:600; letter-spacing:0.06em">
+    VICINITY &mdash; GPS LOCATION: 26.549537, -81.979659
+  </div>
+
+  <div class="abs" style="left:9.95in; top:2.72in; width:3.15in; height:5.35in">
+    <div class="map-tag">PROJECT SITE</div>
+    <img class="map-img" src="../../projects/cape-coral-fl/assets/house-photo.png">
+  </div>
+  <div class="abs" style="left:9.95in; top:8.3in">
+    
+  <div class="figure-label">
+    <div class="fl-circle">1</div>
+    <div class="fl-text">
+      <div class="t">SITE PHOTO</div>
+      <div class="s">SCALE: NTS</div>
+    </div>
+  </div>
+  </div>
+
+  <div class="abs" style="left:13.35in; top:2.72in; width:3.15in; height:5.35in">
+    <div class="map-tag">PROJECT SITE</div>
+    <svg style="position:absolute; z-index:1; left:calc(45.6% - 11px); top:calc(55.8% - 30px); width:22px; height:30px" viewBox="0 0 20 28">
+      <path d="M10,0 C4.5,0 0,4.5 0,10 C0,17 10,28 10,28 C10,28 20,17 20,10 C20,4.5 15.5,0 10,0 Z" fill="#e33"/>
+      <circle cx="10" cy="10" r="4" fill="#a11"/>
+    </svg>
+    <img class="map-img" src="../../projects/cape-coral-fl/assets/vicinity-map.png">
+  </div>
+  <div class="abs" style="left:13.35in; top:8.3in">
+    
+  <div class="figure-label">
+    <div class="fl-circle">2</div>
+    <div class="fl-text">
+      <div class="t">VICINITY MAP</div>
+      <div class="s">SCALE: NTS</div>
+    </div>
+  </div>
+  </div></div>
+    <div class="title-strip">
+      <div class="ts-cell" style="width:2.9in">
+        <div class="ts-company">SUNCOAST ENERGY SOLUTIONS LLC</div>
+        <div class="ts-sub">FL EC LICENSE EC13009412 &nbsp;|&nbsp; JOB # SC-2611</div>
+      </div>
+      <div class="ts-cell" style="width:3in">
+        <div class="ts-label">PROJECT</div>
+        <div class="ts-value">5217 SW 11TH AVE, CAPE CORAL, FL 33914, USA</div>
+        <div class="ts-info" style="margin-top:2px">AHJ: CITY OF CAPE CORAL (LEE COUNTY)<br>UTILITY: LCEC &nbsp; METER # 7734502118</div>
+      </div>
+      <div class="ts-cell" style="width:3.1in">
+        <div class="ts-label">SYSTEM</div>
+        <div class="ts-info">(02) ENPHASE IQ BATTERY 5P, 3.84KW / 5.0KWH EACH<br>(01) ENPHASE IQ SYSTEM CONTROLLER 3G, 200A<br>TOTAL: 7.68 KW AC / 10.0 KWH</div>
+      </div>
+      <div class="ts-cell" style="width:2.5in">
+        <div class="ts-label">REVISIONS</div>
+        <table class="ts-revtable">
+          <tr><th style="width:56%">DESCRIPTION</th><th style="width:26%">DATE</th><th>REV</th></tr>
+          <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+      <div class="ts-cell" style="width:1.7in">
+        <div class="ts-label">DATE</div>
+        <div class="ts-value">07/08/2026</div>
+        <div class="ts-label" style="margin-top:4px">SHEET SIZE</div>
+        <div class="ts-value">ANSI B 11" X 17"</div>
+      </div>
+      <div class="ts-cell" style="flex:1">
+        <div class="ts-label">SHEET NAME</div>
+        <div class="ts-sheetname">COVER PAGE</div>
+      </div>
+      <div class="ts-cell" style="width:1.35in; background:#eef2f7">
+        <div class="ts-sheetnum">ES-0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <div class="sheet-border"></div>
+    <div class="sheet-border-inner"></div>
+    <div class="content">
+  
+  <svg style="position:absolute; left:0.25in; top:0.35in; width:9.55in; height:8.55in" viewBox="-16 -13 150 134" preserveAspectRatio="xMidYMid meet">
+    <text x="33" y="-8.5" font-size="3" text-anchor="middle" font-weight="normal" fill="#000"><tspan x="33" >(E) CANAL</tspan></text>
+    <line x1="-14" y1="-6" x2="80" y2="-6" stroke="#60a5fa" stroke-width="0.4" stroke-dasharray="2,1"/>
+    
+    <rect x="-10" y="-6" width="86" height="118" fill="none" stroke="#111" stroke-width="0.3" stroke-dasharray="3,1.5,0.6,1.5"/>
+    <text x="-8" y="110" font-size="2" text-anchor="start" font-weight="normal" fill="#000"><tspan x="-8" >PROPERTY LINE</tspan></text>
+    
+    <rect x="14" y="2" width="44" height="28" fill="#fff" stroke="#111" stroke-width="0.45"/>
+    <path d="M18,2 L18,30 M22,2 L22,30 M26,2 L26,30 M30,2 L30,30 M34,2 L34,30 M38,2 L38,30 M42,2 L42,30 M46,2 L46,30 M50,2 L50,30 M54,2 L54,30 M14,6 L58,6 M14,10 L58,10 M14,14 L58,14 M14,18 L58,18 M14,22 L58,22 M14,26 L58,26" stroke="#9ca3af" stroke-width="0.12" fill="none"/>
+    <rect x="21" y="14.2" width="30" height="3.6" fill="#fff" opacity="0.9"/>
+    <text x="36" y="16.8" font-size="2" text-anchor="middle" font-weight="normal" fill="#000"><tspan x="36" >(E) POOL SCREEN ENCLOSURE</tspan></text>
+    
+    <rect x="0" y="30" width="62" height="46" fill="#fff" stroke="#111" stroke-width="0.5"/>
+    <line x1="18" y1="53" x2="46" y2="53" stroke="#111" stroke-width="0.3"/>
+    <line x1="0" y1="30" x2="18" y2="53" stroke="#111" stroke-width="0.3"/>
+    <line x1="0" y1="76" x2="18" y2="53" stroke="#111" stroke-width="0.3"/>
+    <line x1="62" y1="30" x2="46" y2="53" stroke="#111" stroke-width="0.3"/>
+    <line x1="62" y1="76" x2="46" y2="53" stroke="#111" stroke-width="0.3"/>
+    
+    <rect x="4" y="76" width="22" height="20" fill="#fff" stroke="#111" stroke-width="0.5"/>
+    <line x1="15" y1="77" x2="15" y2="95" stroke="#111" stroke-width="0.3"/>
+    
+    <rect x="6" y="96" width="18" height="12" fill="none" stroke="#6b7280" stroke-width="0.25"/>
+    <text x="15" y="102.7" font-size="1.8" text-anchor="middle" font-weight="normal" fill="#000"><tspan x="15" >(E) DRIVEWAY</tspan></text>
+    <rect x="62.3" y="44" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="45.45" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 45.45)">UM</text><rect x="62.3" y="47.05" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="48.5" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 48.5)">MSP</text><rect x="62.3" y="50.1" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="51.550000000000004" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 51.550000000000004)">SC</text><rect x="62.3" y="53.15" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="54.6" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 54.6)">B1</text><rect x="62.3" y="56.2" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="57.650000000000006" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 57.650000000000006)">B2</text><rect x="62.3" y="59.25" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="60.7" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 60.7)">ACD</text><rect x="62.3" y="62.3" width="2.8" height="2.9" fill="#fff" stroke="#2563eb" stroke-width="0.26"/>
+      <text x="63.699999999999996" y="63.75" font-size="1.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 63.699999999999996 63.75)">RSD</text><rect x="61.4" y="42.7" width="4.699999999999999" height="23.949999999999996" fill="none" stroke="#111" stroke-width="0.2" stroke-dasharray="1.1,0.7"/><rect x="78" y="34" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="36.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 36.35)">UM</text><rect x="78" y="39" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="41.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 41.35)">MSP</text><rect x="78" y="44" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="46.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 46.35)">SC</text><rect x="78" y="49" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="51.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 51.35)">B1</text><rect x="78" y="54" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="56.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 56.35)">B2</text><rect x="78" y="59" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="61.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 61.35)">ACD</text><rect x="78" y="64" width="6" height="4.7" fill="#fff" stroke="#2563eb" stroke-width="0.38"/>
+      <text x="81" y="66.35" font-size="2.3" fill="#2563eb" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 81 66.35)">RSD</text>
+    <line x1="66.1" y1="42.7" x2="78" y2="34" stroke="#111" stroke-width="0.2" stroke-dasharray="1.1,0.7"/>
+    <line x1="66.1" y1="66.64999999999999" x2="78" y2="69" stroke="#111" stroke-width="0.2" stroke-dasharray="1.1,0.7"/>
+    <rect x="77.5" y="33" width="7" height="36.8" fill="none" stroke="#111" stroke-width="0.2" stroke-dasharray="1.1,0.7"/><path d="M86.5,25.8 L83.5,25.8 L84.4,36.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="36.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="26.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(E) UTILITY METER</tspan></text><path d="M86.5,32.8 L83.5,32.8 L84.4,41.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="41.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="33.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(E) MAIN SERVICE PANEL, 200A</tspan></text><path d="M86.5,40.3 L83.5,40.3 L84.4,46.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="46.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="41" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(N) ENPHASE IQ SYSTEM CONTROLLER 3G,</tspan><tspan x="87.5" dy="2.7300000000000004">SC200G101NA, 200A, NEMA 3R</tspan></text><path d="M86.5,48.8 L83.5,48.8 L84.4,51.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="51.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="49.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(N) ENPHASE IQ BATTERY 5P #1,</tspan><tspan x="87.5" dy="2.7300000000000004">3.84KW / 5.0KWH, NEMA 3R</tspan></text><path d="M86.5,57.8 L83.5,57.8 L84.4,56.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="56.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="58.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(N) ENPHASE IQ BATTERY 5P #2,</tspan><tspan x="87.5" dy="2.7300000000000004">3.84KW / 5.0KWH, NEMA 3R</tspan></text><path d="M86.5,66.8 L83.5,66.8 L84.4,61.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="61.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="67.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(N) AC DISCONNECT- SQUARE D DU222RB,</tspan><tspan x="87.5" dy="2.7300000000000004">60A, 240V, NON-FUSED, NEMA 3R</tspan></text><path d="M86.5,75.8 L83.5,75.8 L84.4,66.35" fill="none" stroke="#000" stroke-width="0.2"/><circle cx="84.4" cy="66.35" r="0.32000000000000006" fill="#000"/><text x="87.5" y="76.5" font-size="2.1" text-anchor="start" font-weight="normal" fill="#000"><tspan x="87.5" >(N) VISIBLE LOCKABLE RAPID</tspan><tspan x="87.5" dy="2.7300000000000004">SHUTDOWN DEVICE</tspan></text>
+    <text x="33" y="108" font-size="3" text-anchor="middle" font-weight="normal" fill="#000"><tspan x="33" >(E) FRONT OF RESIDENCE</tspan></text>
+    <text x="33" y="116.5" font-size="3" text-anchor="middle" font-weight="bold" fill="#000"><tspan x="33" >SW 11TH AVE</tspan></text>
+    
+  <g>
+    <path d="M-10,113 L-7.25,121.75 L-10,120 L-12.75,121.75 Z"
+          fill="none" stroke="#111" stroke-width="0.35000000000000003"/>
+    <path d="M-10,113 L-7.25,121.75 L-10,120 Z" fill="#111"/>
+    <text x="-10" y="125.5" font-size="3.25" font-weight="bold" text-anchor="middle" fill="#111">N</text>
+  </g>
+  </svg>
+
+  <div class="abs" style="left:10.1in; top:0.25in; width:3.15in">
+    <div class="hd-bar">LEGEND</div>
+    <div class="panel" style="border-top:none"><div class="body">
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">MSP</span>
+      <span style="font-size:6.5pt">MAIN SERVICE PANEL (EXISTING)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">UM</span>
+      <span style="font-size:6.5pt">UTILITY METER (EXISTING)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">SC</span>
+      <span style="font-size:6.5pt">ENPHASE IQ SYSTEM CONTROLLER 3G</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">B1</span>
+      <span style="font-size:6.5pt">ENPHASE IQ BATTERY 5P #1</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">B2</span>
+      <span style="font-size:6.5pt">ENPHASE IQ BATTERY 5P #2</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">ACD</span>
+      <span style="font-size:6.5pt">AC DISCONNECT</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; text-align:center; border:1px solid #2563eb; color:#2563eb; font-size:5.5pt; font-weight:700; padding:1.5px 0">RSD</span>
+      <span style="font-size:6.5pt">VISIBLE LOCKABLE RAPID SHUTDOWN DEVICE</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin:2.5px 0">
+      <span style="flex:0 0 0.3in; height:0.14in; border:1px solid #111; background:repeating-linear-gradient(90deg,#fff,#fff 2px,#d1d5db 2px,#d1d5db 3px)"></span>
+      <span style="font-size:6.5pt">POOL SCREEN ENCLOSURE (EXISTING)</span>
+    </div></div></div>
+  </div>
+
+  <div class="abs" style="left:13.5in; top:0.25in; width:3in">
+    <div class="hd-bar">NEW EQUIPMENT SUMMARY</div>
+    <div class="summary-list" style="border-top:none">
+      <div class="row">(02) ENPHASE IQ BATTERY 5P, IQBATTERY-5P-1P-NA, 3.84KW / 5.0KWH EACH [120/240V], NEMA 3R</div><div class="row">(01) ENPHASE IQ SYSTEM CONTROLLER 3G, SC200G101NA, 200A, 120/240V, NEMA 3R</div><div class="row">(01) ENPHASE IQ GATEWAY (ENVOY) METERED, ENV-S-WM-230</div><div class="row">(01) SQUARE D SAFETY SWITCH DU222RB, 60A, 240V, NON-FUSED, NEMA 3R</div>
+    </div>
+  </div>
+
+  <table class="grid-table abs" style="left:10.1in; top:3.4in; width:6.4in">
+    <tr><th colspan="4" style="font-size:8.5pt">BILL OF MATERIALS</th></tr>
+    <tr><th style="width:1.25in">EQUIPMENT</th><th style="width:0.4in">QTY</th><th style="width:1.35in">PRODUCT CODE</th><th>DESCRIPTION</th></tr>
+    
+      <tr>
+        <td class="c" style="font-weight:700">BATTERY</td>
+        <td class="c">2</td>
+        <td class="c">IQBATTERY-5P-1P-NA</td>
+        <td>ENPHASE IQ BATTERY 5P, 3.84KW / 5.0KWH, 120/240V, NEMA TYPE 3R, WALL-MOUNTED</td>
+      </tr>
+      <tr>
+        <td class="c" style="font-weight:700">SYSTEM CONTROLLER</td>
+        <td class="c">1</td>
+        <td class="c">SC200G101NA</td>
+        <td>ENPHASE IQ SYSTEM CONTROLLER 3G, 200A, 120/240V, NEMA 3R, SERVICE ENTRANCE RATED</td>
+      </tr>
+      <tr>
+        <td class="c" style="font-weight:700">GATEWAY</td>
+        <td class="c">1</td>
+        <td class="c">ENV-S-WM-230</td>
+        <td>ENPHASE IQ GATEWAY (ENVOY) METERED</td>
+      </tr>
+      <tr>
+        <td class="c" style="font-weight:700">AC DISCONNECT</td>
+        <td class="c">1</td>
+        <td class="c">DU222RB</td>
+        <td>SQUARE D SAFETY SWITCH, 60A, 240V, NON-FUSED, NEMA 3R</td>
+      </tr>
+      <tr>
+        <td class="c" style="font-weight:700">RSD</td>
+        <td class="c">1</td>
+        <td class="c">-</td>
+        <td>IMO VISIBLE LOCKABLE RAPID SHUTDOWN DEVICE</td>
+      </tr>
+      <tr>
+        <td class="c" style="font-weight:700">WALL MOUNT BRACKET</td>
+        <td class="c">2</td>
+        <td class="c">BRKT-05</td>
+        <td>IQ BATTERY 5P WALL MOUNT BRACKET</td>
+      </tr>
+  </table>
+
+  <div class="abs panel" style="left:10.1in; top:6.15in; padding:4px 8px; font-size:8.5pt; font-weight:700; letter-spacing:0.05em">
+    UTILITY METER # 7734502118 &nbsp;&mdash;&nbsp; LCEC
+  </div>
+
+  <div class="abs" style="left:0.4in; top:8.95in">
+    
+  <div class="figure-label">
+    <div class="fl-circle">1</div>
+    <div class="fl-text">
+      <div class="t">SITE / ROOF PLAN &amp; BOM</div>
+      <div class="s">SCALE: 1/8" = 1'-0"</div>
+    </div>
+  </div>
+  </div></div>
+    <div class="title-strip">
+      <div class="ts-cell" style="width:2.9in">
+        <div class="ts-company">SUNCOAST ENERGY SOLUTIONS LLC</div>
+        <div class="ts-sub">FL EC LICENSE EC13009412 &nbsp;|&nbsp; JOB # SC-2611</div>
+      </div>
+      <div class="ts-cell" style="width:3in">
+        <div class="ts-label">PROJECT</div>
+        <div class="ts-value">5217 SW 11TH AVE, CAPE CORAL, FL 33914, USA</div>
+        <div class="ts-info" style="margin-top:2px">AHJ: CITY OF CAPE CORAL (LEE COUNTY)<br>UTILITY: LCEC &nbsp; METER # 7734502118</div>
+      </div>
+      <div class="ts-cell" style="width:3.1in">
+        <div class="ts-label">SYSTEM</div>
+        <div class="ts-info">(02) ENPHASE IQ BATTERY 5P, 3.84KW / 5.0KWH EACH<br>(01) ENPHASE IQ SYSTEM CONTROLLER 3G, 200A<br>TOTAL: 7.68 KW AC / 10.0 KWH</div>
+      </div>
+      <div class="ts-cell" style="width:2.5in">
+        <div class="ts-label">REVISIONS</div>
+        <table class="ts-revtable">
+          <tr><th style="width:56%">DESCRIPTION</th><th style="width:26%">DATE</th><th>REV</th></tr>
+          <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+      <div class="ts-cell" style="width:1.7in">
+        <div class="ts-label">DATE</div>
+        <div class="ts-value">07/08/2026</div>
+        <div class="ts-label" style="margin-top:4px">SHEET SIZE</div>
+        <div class="ts-value">ANSI B 11" X 17"</div>
+      </div>
+      <div class="ts-cell" style="flex:1">
+        <div class="ts-label">SHEET NAME</div>
+        <div class="ts-sheetname">SITE / ROOF PLAN &amp; BOM</div>
+      </div>
+      <div class="ts-cell" style="width:1.35in; background:#eef2f7">
+        <div class="ts-sheetnum">ES-1</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <div class="sheet-border"></div>
+    <div class="sheet-border-inner"></div>
+    <div class="content">
+  
+    <div class="abs panel" style="left:0.35in; top:0.15in; width:4in"><div class="body note-text"><b>NOTE:</b> BATTERIES SHALL BE INSTALLED 3 FT AWAY FROM DOORS AND WINDOWS. ALL EQUIPMENT OUTDOOR RATED, NEMA 3R.</div></div>
+    <div class="abs panel" style="left:4.6in; top:0.15in; width:4.6in"><div class="body note-text"><b>NOTE:</b> EQUIPMENT ANCHORING SHALL COMPLY WITH FBC WIND LOAD REQUIREMENTS (170 MPH ULT, EXPOSURE C). FASTEN TO STRUCTURE PER MANUFACTURER INSTALLATION MANUAL.</div></div>
+    <div class="abs panel" style="left:9.45in; top:0.15in; width:5.6in"><div class="body note-text"><b>NOTE:</b> PROVIDE AND MAINTAIN 36" DEPTH, 30" WIDTH, 6'6" HEADROOM WORKING SPACE IN FRONT OF ALL ELECTRICAL EQUIPMENT PER NEC 110.26. BOTTOM OF BATTERY ENCLOSURES 30" ABOVE FINISHED GRADE, MIN 12" BETWEEN UNITS.</div></div>
+  
+  <svg style="position:absolute; left:0.35in; top:1.05in; width:16in; height:7.7in" viewBox="0 0 1620 780" preserveAspectRatio="xMidYMin meet">
+    
+    <path d="M120,60 L120,620 M1480,60 L1480,620" fill="none" stroke="#111" stroke-width="1.8"/>
+    <line x1="120" y1="60" x2="1480" y2="60" stroke="#111" stroke-width="1.8"/>
+    <path d="M120,322 l-9,9 l18,9 l-9,9 l0,9" fill="none" stroke="#000" stroke-width="1.4"/>
+    <path d="M1480,322 l-9,9 l18,9 l-9,9 l0,9" fill="none" stroke="#000" stroke-width="1.4"/>
+    
+    <line x1="75" y1="620" x2="1525" y2="620" stroke="#111" stroke-width="2.2"/>
+    <path d="M84.8,620 L75,631.2 M98.8,620 L89,631.2 M112.8,620 L103,631.2 M126.8,620 L117,631.2 M140.8,620 L131,631.2 M154.8,620 L145,631.2 M168.8,620 L159,631.2 M182.8,620 L173,631.2 M196.8,620 L187,631.2 M210.8,620 L201,631.2 M224.8,620 L215,631.2 M238.8,620 L229,631.2 M252.8,620 L243,631.2 M266.8,620 L257,631.2 M280.8,620 L271,631.2 M294.8,620 L285,631.2 M308.8,620 L299,631.2 M322.8,620 L313,631.2 M336.8,620 L327,631.2 M350.8,620 L341,631.2 M364.8,620 L355,631.2 M378.8,620 L369,631.2 M392.8,620 L383,631.2 M406.8,620 L397,631.2 M420.8,620 L411,631.2 M434.8,620 L425,631.2 M448.8,620 L439,631.2 M462.8,620 L453,631.2 M476.8,620 L467,631.2 M490.8,620 L481,631.2 M504.8,620 L495,631.2 M518.8,620 L509,631.2 M532.8,620 L523,631.2 M546.8,620 L537,631.2 M560.8,620 L551,631.2 M574.8,620 L565,631.2 M588.8,620 L579,631.2 M602.8,620 L593,631.2 M616.8,620 L607,631.2 M630.8,620 L621,631.2 M644.8,620 L635,631.2 M658.8,620 L649,631.2 M672.8,620 L663,631.2 M686.8,620 L677,631.2 M700.8,620 L691,631.2 M714.8,620 L705,631.2 M728.8,620 L719,631.2 M742.8,620 L733,631.2 M756.8,620 L747,631.2 M770.8,620 L761,631.2 M784.8,620 L775,631.2 M798.8,620 L789,631.2 M812.8,620 L803,631.2 M826.8,620 L817,631.2 M840.8,620 L831,631.2 M854.8,620 L845,631.2 M868.8,620 L859,631.2 M882.8,620 L873,631.2 M896.8,620 L887,631.2 M910.8,620 L901,631.2 M924.8,620 L915,631.2 M938.8,620 L929,631.2 M952.8,620 L943,631.2 M966.8,620 L957,631.2 M980.8,620 L971,631.2 M994.8,620 L985,631.2 M1008.8,620 L999,631.2 M1022.8,620 L1013,631.2 M1036.8,620 L1027,631.2 M1050.8,620 L1041,631.2 M1064.8,620 L1055,631.2 M1078.8,620 L1069,631.2 M1092.8,620 L1083,631.2 M1106.8,620 L1097,631.2 M1120.8,620 L1111,631.2 M1134.8,620 L1125,631.2 M1148.8,620 L1139,631.2 M1162.8,620 L1153,631.2 M1176.8,620 L1167,631.2 M1190.8,620 L1181,631.2 M1204.8,620 L1195,631.2 M1218.8,620 L1209,631.2 M1232.8,620 L1223,631.2 M1246.8,620 L1237,631.2 M1260.8,620 L1251,631.2 M1274.8,620 L1265,631.2 M1288.8,620 L1279,631.2 M1302.8,620 L1293,631.2 M1316.8,620 L1307,631.2 M1330.8,620 L1321,631.2 M1344.8,620 L1335,631.2 M1358.8,620 L1349,631.2 M1372.8,620 L1363,631.2 M1386.8,620 L1377,631.2 M1400.8,620 L1391,631.2 M1414.8,620 L1405,631.2 M1428.8,620 L1419,631.2 M1442.8,620 L1433,631.2 M1456.8,620 L1447,631.2 M1470.8,620 L1461,631.2 M1484.8,620 L1475,631.2 M1498.8,620 L1489,631.2 M1512.8,620 L1503,631.2 M1526.8,620 L1517,631.2" stroke="#111" stroke-width="0.8" fill="none"/>
+    <text x="1530" y="626" font-size="15" text-anchor="start" font-weight="normal" fill="#000"><tspan x="1530" >FINISHED GRADE</tspan></text>
+    
+    
+  <g>
+    <rect x="170" y="300" width="70" height="160" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <circle cx="205" cy="348" r="23.8" fill="#fff" stroke="#000" stroke-width="3"/>
+    <circle cx="205" cy="348" r="14.756" fill="none" stroke="#000" stroke-width="1"/>
+    <text x="205" y="344.8" font-size="9.996" text-anchor="middle">UTILITY</text>
+    <text x="205" y="356.7" font-size="9.996" text-anchor="middle">METER</text>
+    <rect x="184" y="399.2" width="42" height="48" fill="none" stroke="#000" stroke-width="1"/>
+  </g>
+    
+  <g>
+    <rect x="280" y="280" width="90" height="200" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    
+    
+    
+  </g>
+    
+  <g>
+    <rect x="430" y="250" width="90" height="290" rx="5.3999999999999995" fill="#fff" stroke="#111" stroke-width="1.7"/>
+    <line x1="444.4" y1="267.4" x2="444.4" y2="522.5999999999999" stroke="#111" stroke-width="1"/>
+    <circle cx="479.5" cy="290.6" r="10.799999999999999" fill="none" stroke="#111" stroke-width="1.2"/>
+    <text x="479.5" y="295.1" font-size="14.4" text-anchor="middle" fill="#111" font-style="italic">e</text>
+    <rect x="458.8" y="409.5" width="40.5" height="52.199999999999996" fill="none" stroke="#111" stroke-width="1"/>
+  </g>
+    
+  <g>
+    <rect x="580" y="330" width="225" height="150" rx="13.5" fill="#fff" stroke="#111" stroke-width="1.7"/>
+    <circle cx="692.5" cy="393" r="22.5" fill="none" stroke="#111" stroke-width="1.4"/>
+    <text x="692.5" y="402" font-size="28.5" text-anchor="middle" fill="#111" font-style="italic">e</text>
+    <line x1="620.5" y1="462" x2="643" y2="462" stroke="#111" stroke-width="1.6"/><line x1="656.5" y1="462" x2="679" y2="462" stroke="#111" stroke-width="1.6"/><line x1="692.5" y1="462" x2="715" y2="462" stroke="#111" stroke-width="1.6"/><line x1="728.5" y1="462" x2="751" y2="462" stroke="#111" stroke-width="1.6"/>
+    
+  </g>
+    
+  <g>
+    <rect x="850" y="330" width="225" height="150" rx="13.5" fill="#fff" stroke="#111" stroke-width="1.7"/>
+    <circle cx="962.5" cy="393" r="22.5" fill="none" stroke="#111" stroke-width="1.4"/>
+    <text x="962.5" y="402" font-size="28.5" text-anchor="middle" fill="#111" font-style="italic">e</text>
+    <line x1="890.5" y1="462" x2="913" y2="462" stroke="#111" stroke-width="1.6"/><line x1="926.5" y1="462" x2="949" y2="462" stroke="#111" stroke-width="1.6"/><line x1="962.5" y1="462" x2="985" y2="462" stroke="#111" stroke-width="1.6"/><line x1="998.5" y1="462" x2="1021" y2="462" stroke="#111" stroke-width="1.6"/>
+    
+  </g>
+    
+  <g>
+    <rect x="1140" y="350" width="65" height="95" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    
+    <rect x="1201" y="378.5" width="4" height="38" fill="#000"/>
+    
+  </g>
+    
+  <g>
+    <rect x="1250" y="355" width="55" height="75" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    
+    
+    <circle cx="1277.5" cy="392.5" r="15.400000000000002" fill="none" stroke="#000" stroke-width="1.4"/>
+  </g>
+    
+  <g>
+    <rect x="1360" y="360" width="45" height="65" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    
+    
+    
+  </g>
+    
+    
+    <line x1="808" y1="405" x2="847" y2="405" stroke="#c00" stroke-width="1.7777777777777777"/>
+    <path d="M808,405 l5.120000000000001,-2.5600000000000005 v5.120000000000001 z M847,405 l-5.120000000000001,-2.5600000000000005 v5.120000000000001 z" fill="#c00"/>
+    <text x="827.5" y="399.88" font-size="16" fill="#c00" text-anchor="middle">12"</text>
+    
+    <line x1="610" y1="484" x2="610" y2="616" stroke="#c00" stroke-width="1.7777777777777777"/>
+    <path d="M610,484 l-2.5600000000000005,5.120000000000001 h5.120000000000001 z M610,616 l-2.5600000000000005,-5.120000000000001 h5.120000000000001 z" fill="#c00"/>
+    <text x="622" y="555.3333333333334" font-size="16" fill="#c00" text-anchor="middle" transform="rotate(-90 622 555.3333333333334)">30"</text>
+    
+    <line x1="880" y1="484" x2="880" y2="616" stroke="#c00" stroke-width="1.7777777777777777"/>
+    <path d="M880,484 l-2.5600000000000005,5.120000000000001 h5.120000000000001 z M880,616 l-2.5600000000000005,-5.120000000000001 h5.120000000000001 z" fill="#c00"/>
+    <text x="892" y="555.3333333333334" font-size="16" fill="#c00" text-anchor="middle" transform="rotate(-90 892 555.3333333333334)">30"</text>
+    
+    <text x="100" y="165" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="100" >(E) UTILITY METER</tspan></text>
+    <path d="M110,172 L205,296" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="205" cy="296" r="1.7600000000000002" fill="#000"/>
+
+    <text x="390" y="105" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="390" >(N) ENPHASE IQ SYSTEM CONTROLLER 3G,</tspan><tspan x="390" dy="22.1">SC200G101NA, 200A, NEMA 3R,</tspan><tspan x="390" dy="22.1">SERVICE ENTRANCE RATED</tspan></text>
+    <path d="M385,122 L475,246" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="475" cy="246" r="1.7600000000000002" fill="#000"/>
+
+    <text x="640" y="180" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="640" >(N) ENPHASE IQ BATTERY 5P #1,</tspan><tspan x="640" dy="22.1">IQBATTERY-5P-1P-NA,</tspan><tspan x="640" dy="22.1">3.84KW / 5.0KWH, NEMA 3R</tspan></text>
+    <path d="M635,198 L660,326" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="660" cy="326" r="1.7600000000000002" fill="#000"/>
+
+    <text x="190" y="680" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="190" >(E) MAIN SERVICE PANEL,</tspan><tspan x="190" dy="22.1">200A, 120/240V</tspan></text>
+    <path d="M185,665 L325,482" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="325" cy="482" r="1.7600000000000002" fill="#000"/>
+
+    <text x="700" y="680" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="700" >(N) ENPHASE IQ BATTERY 5P #2,</tspan><tspan x="700" dy="22.1">IQBATTERY-5P-1P-NA,</tspan><tspan x="700" dy="22.1">3.84KW / 5.0KWH, NEMA 3R</tspan></text>
+    <path d="M695,665 L962,482" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="962" cy="482" r="1.7600000000000002" fill="#000"/>
+
+    <text x="1010" y="690" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="1010" >(N) AC DISCONNECT- SQUARE D</tspan><tspan x="1010" dy="22.1">DU222RB, 60A, 240V, NON-FUSED,</tspan><tspan x="1010" dy="22.1">NEMA 3R</tspan></text>
+    <path d="M1005,673 L1172,447" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="1172" cy="447" r="1.7600000000000002" fill="#000"/>
+
+    <text x="1240" y="655" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="1240" >(N) VISIBLE LOCKABLE RAPID</tspan><tspan x="1240" dy="22.1">SHUTDOWN DEVICE</tspan></text>
+    <path d="M1235,638 L1277,432" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="1277" cy="432" r="1.7600000000000002" fill="#000"/>
+
+    <text x="1320" y="190" font-size="17" text-anchor="start" font-weight="normal" fill="#000"><tspan x="1320" >(N) ENPHASE IQ GATEWAY</tspan><tspan x="1320" dy="22.1">(ENVOY) METERED, ENV-S-WM-230</tspan></text>
+    <path d="M1315,205 L1382,358" fill="none" stroke="#000" stroke-width="1.1"/><circle cx="1382" cy="358" r="1.7600000000000002" fill="#000"/>
+  </svg>
+  <div class="abs" style="left:0.4in; top:8.95in">
+    
+  <div class="figure-label">
+    <div class="fl-circle">1</div>
+    <div class="fl-text">
+      <div class="t">EQUIPMENT ELEVATION — EAST EXTERIOR WALL</div>
+      <div class="s">SCALE: NTS</div>
+    </div>
+  </div>
+  </div></div>
+    <div class="title-strip">
+      <div class="ts-cell" style="width:2.9in">
+        <div class="ts-company">SUNCOAST ENERGY SOLUTIONS LLC</div>
+        <div class="ts-sub">FL EC LICENSE EC13009412 &nbsp;|&nbsp; JOB # SC-2611</div>
+      </div>
+      <div class="ts-cell" style="width:3in">
+        <div class="ts-label">PROJECT</div>
+        <div class="ts-value">5217 SW 11TH AVE, CAPE CORAL, FL 33914, USA</div>
+        <div class="ts-info" style="margin-top:2px">AHJ: CITY OF CAPE CORAL (LEE COUNTY)<br>UTILITY: LCEC &nbsp; METER # 7734502118</div>
+      </div>
+      <div class="ts-cell" style="width:3.1in">
+        <div class="ts-label">SYSTEM</div>
+        <div class="ts-info">(02) ENPHASE IQ BATTERY 5P, 3.84KW / 5.0KWH EACH<br>(01) ENPHASE IQ SYSTEM CONTROLLER 3G, 200A<br>TOTAL: 7.68 KW AC / 10.0 KWH</div>
+      </div>
+      <div class="ts-cell" style="width:2.5in">
+        <div class="ts-label">REVISIONS</div>
+        <table class="ts-revtable">
+          <tr><th style="width:56%">DESCRIPTION</th><th style="width:26%">DATE</th><th>REV</th></tr>
+          <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+      <div class="ts-cell" style="width:1.7in">
+        <div class="ts-label">DATE</div>
+        <div class="ts-value">07/08/2026</div>
+        <div class="ts-label" style="margin-top:4px">SHEET SIZE</div>
+        <div class="ts-value">ANSI B 11" X 17"</div>
+      </div>
+      <div class="ts-cell" style="flex:1">
+        <div class="ts-label">SHEET NAME</div>
+        <div class="ts-sheetname">EQUIPMENT ELEVATION</div>
+      </div>
+      <div class="ts-cell" style="width:1.35in; background:#eef2f7">
+        <div class="ts-sheetnum">ES-2</div>
+      </div>
+    </div>
+  </div></body>
+</html>

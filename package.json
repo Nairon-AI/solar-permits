@@ -1,0 +1,25 @@
+{
+  "name": "solar-permits",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "render": "node src/render.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lukaeric14/solar-permits.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lukaeric14/solar-permits/issues"
+  },
+  "homepage": "https://github.com/Lukaeric14/solar-permits#readme",
+  "type": "module",
+  "dependencies": {
+    "puppeteer-core": "^25.3.0"
+  }
+}
