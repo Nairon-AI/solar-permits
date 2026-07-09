@@ -1,7 +1,7 @@
 // Build the permit HTML for a project: projects/<name>/project.json -> out/<name>/permit.html
 // Shared by render.js (PDF) and dev.js (hot reload). Also runs standalone:
 //   node src/build.js [projects/<name>]
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
 import { resolve, relative, basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { coverSheet } from './sheets/cover.js';
@@ -28,7 +28,18 @@ export function buildHtml(projDirArg) {
 
   const data = JSON.parse(readFileSync(resolve(projDir, 'project.json'), 'utf8'));
   const theme = THEMES[data.theme ?? 'atlas'];
-  data.assetsRel = relative(outDir, resolve(projDir, 'assets'));
+
+  mkdirSync(outDir, { recursive: true });
+
+  // Copy assets alongside the output HTML so out/<name>/ is self-contained —
+  // a same-directory relative path resolves under any static server, whereas
+  // a "../../projects/<name>/assets" walk only works when the server root
+  // sits above out/ (fails when a preview server is scoped to out/<name>/).
+  const assetsDir = resolve(projDir, 'assets');
+  data.assetsRel = 'assets';
+  if (existsSync(assetsDir)) {
+    cpSync(assetsDir, resolve(outDir, 'assets'), { recursive: true });
+  }
 
   const css = readFileSync(resolve(root, theme.css), 'utf8');
   const sheets = theme.sheets.map(build => build(data));
@@ -39,7 +50,6 @@ export function buildHtml(projDirArg) {
 <body>${sheets.join('\n')}</body>
 </html>`;
 
-  mkdirSync(outDir, { recursive: true });
   const htmlPath = resolve(outDir, 'permit.html');
   writeFileSync(htmlPath, html);
   return { htmlPath, outDir, count: sheets.length };
